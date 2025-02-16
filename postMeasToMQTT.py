@@ -1,16 +1,19 @@
-url = "http://192.168.1.xx:8080"
+uri = "mqtt://192.168.1.xx"
+username = ""
+password = ""
+
+publishTopic = "oxocard/meas/"
+
+connectMQTT(uri, username, password)
+
 backlight(0)
-clearRequestHeaders()
-addRequestHeader("Content-Type", "text/plain")
-addRequestHeader("Accept", "application/json")
-setAutostart(true)
 setInterval(10000)
 #setTimer(1000)
 
-def updateValue(url: byte[], valueName: byte[], value: float)
-    fullURL = url + "/rest/items/" + valueName
+
+def updateValue(publishTopic: byte[], valueName: byte[], value: float)
     body = "" + value
-    postRequest(fullURL, body)
+    publishMQTT(publishTopic + valueName, body)
 
 def onClick():
 	if getButton():
